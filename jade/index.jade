@@ -1,0 +1,8 @@
+doctype html
+html
+  body
+    for lib in libs
+      script(src='libs/' + lib.substring(lib.lastIndexOf('/') + 1))
+    script(src="app.js")
+    if development
+      script(src="//localhost:35729/livereload.js")
