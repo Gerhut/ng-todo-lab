@@ -8,34 +8,22 @@ angular.module('todo', ['ngResource'])
     'todoRes', '$scope'
     (todoRes ,  $scope) ->
       $scope.items = todoRes.query()
-      $scope.$on('save', (event) ->
-        targetItem = event.targetScope.item
-        targetIndex = $scope.items.indexOf targetItem
-        if targetItem.$save?
-          targetItem.$save()
-        else if targetItem.text?
-          $scope.items[targetIndex] = todoRes.save(targetItem)
+
+      $scope.save = (item) ->
+        index = $scope.items.indexOf item
+
+        if item.$save?
+          item.$save()
+        else if item.text?
+          $scope.items[index] = todoRes.save(item)
         else
-          $scope.items.splice targetIndex, 1
-      )
-      $scope.$on('remove', (event) ->
-        targetItem = event.targetScope.item
-        targetIndex = $scope.items.indexOf targetItem
-        $scope.items.splice targetIndex, 1
-        targetItem.$remove?()
-      )
+          $scope.items.splice index, 1
+
+      $scope.remove = (item) ->
+        index = $scope.items.indexOf item
+        $scope.items.splice index, 1
+        item.$remove?()
+
       $scope.create = ->
         $scope.items.push {}
-  ])
-  .controller('ItemCtrl', [
-    '$scope'
-    ($scope) ->
-      $scope.editable = not $scope.item.text?
-      $scope.edit = ->
-        $scope.editable = true
-      $scope.save = ->
-        $scope.$emit('save')
-        $scope.editable = false
-      $scope.remove = ->
-        $scope.$emit('remove')
   ])

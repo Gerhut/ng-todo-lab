@@ -8,21 +8,20 @@ html(lang=langName)
     ul.list-group(data-ng-controller="TodoCtrl", data-ng-dblclick="create()")
       li.list-group-item(
         data-ng-repeat="item in items | orderBy:'id'"
-        data-ng-controller="ItemCtrl",
-        data-ng-init="item = item"
+        data-ng-init="editable = item.text == null"
         data-ng-click="$event.stopPropagation()"
       )
         div(data-ng-hide="editable")
-          button.btn.btn-primary(data-ng-click="edit()")
+          button.btn.btn-primary(data-ng-click="editable = true")
             span.glyphicon.glyphicon-edit
           | 
           span(data-ng-bind="item.text")
         .input-group(data-ng-show="editable")
           input.form-control(type="text", data-ng-model="item.text")
           span.input-group-btn
-            button.btn.btn-success(data-ng-click="save()")
+            button.btn.btn-success(data-ng-click="save(item); editable = false")
               span.glyphicon.glyphicon-ok
-            button.btn.btn-danger(data-ng-click="remove()")
+            button.btn.btn-danger(data-ng-click="remove(item)")
               span.glyphicon.glyphicon-remove
     for lib in libs
       script(src='libs/' + lib.substring(lib.lastIndexOf('/') + 1))
