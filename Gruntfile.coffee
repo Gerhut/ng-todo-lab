@@ -16,7 +16,6 @@ module.exports = (grunt) ->
     development: true
     libs: [
       "angular/angular.js"
-      "angular-route/angular-route.js"
       "angular-resource/angular-resource.js"
     ]
 
